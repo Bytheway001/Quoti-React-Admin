@@ -30,13 +30,11 @@ class PlansLogic extends React.Component {
 
     generateNewId=()=>{
        let id = this.state.new_record_id;
-
         this.setState({
             ...this.state,
-            new_record_id:this.state.new_record_id--
+            new_record_id:id--
         })
         return id-1;
-        
     }
 
     getRegions = () => {
@@ -61,7 +59,6 @@ class PlansLogic extends React.Component {
     // Cambios a los rates
     handleRateChange = (e) => {
         let plan = this.state.plan
-        let value = e.target.value
         let id = parseInt(e.target.getAttribute('data-rate-id'));
         plan.rates.find(x=>x.id===id)[e.target.name]=e.target.value
         this.setState({
@@ -88,7 +85,7 @@ class PlansLogic extends React.Component {
         reader.readAsText(csvFile);
         reader.onload = event => {
             let csv = event.target.result;
-            let parsedCSV = parseCSV(csv, ';', '\n');
+            let parsedCSV = parseCSV(csv, ';', '\n','plan_rates');
             if (parsedCSV) {
                 let first_id = this.generateNewId();
                 let rates = parsedCSV.map(x=>{
@@ -107,6 +104,29 @@ class PlansLogic extends React.Component {
 
         }
 
+    }
+
+    handleKidRateCSVUpload= (files,evt)=>{
+        let reader = new FileReader();
+        let csvFile = files[0]
+        reader.readAsText(csvFile);
+        reader.onload = event=>{
+            let csv = event.target.result;
+            let parsedCSV = parseCSV(csv,';','\n','kid_rates')
+            if(parsedCSV){
+                let first_id = this.generateNewId();
+                let kid_rates = parsedCSV.map(x=>{
+                    first_id--;
+                    return{...x,id:first_id}
+                })
+                let plan = this.state.plan;
+                plan.kid_rates=kid_rates;
+                this.setState({
+                    ...this.state,
+                    plan:plan
+                })
+            }
+        }
     }
 
     // Submit al formulario
@@ -147,7 +167,7 @@ class PlansLogic extends React.Component {
                     endoso_configs:[]
                 }
                 let deductibles=[...new Set(this.state.plan.rates.map(item => item.deductible))]
-                deductibles.map(x=>newEndoso.endoso_configs.push({id:this.generateNewId(),selected:0,deductible:x,avaliable:0,included:0}))
+                deductibles.map((x,index)=>newEndoso.endoso_configs.push({id:this.generateNewId()-index,selected:0,deductible:x,avaliable:0,included:0}))
                 let plan = this.state.plan;
                 plan.endosos.push(newEndoso)
                 this.setState({
@@ -176,7 +196,7 @@ class PlansLogic extends React.Component {
        let plan = this.state.plan
        let id = parseInt(e.target.getAttribute('data-id'));
        let endoso =parseInt(e.target.getAttribute('data-endoso'));
-       console.log(plan.endosos,e.target.checked)
+       console.log(plan,id,endoso)
        plan.endosos.find(x=>x.id === endoso).endoso_configs.find(x=>x.id===id)[e.target.name]=e.target.checked?1:0
        this.setState({
            ...this.state,

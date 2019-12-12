@@ -1,20 +1,18 @@
 import React from 'react';
-import Axios from 'axios';
-import { API, APIHEADERS } from '../../utils';
-import { Row, Col, Table, Container, Card, Button } from 'react-bootstrap';
-import { Link, Switch, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import { Switch, Route } from 'react-router-dom';
 import PlanShow from './PlanShow';
 import PlansEdit from './PlansEdit';
 import PlansNew from './PlansNew';
 import CrudIndex from '../crud/Index';
 
 class Plans extends React.Component {
-    headers={
-        id:'ID',
-        region:'REGION',
-        name:'NOMBRE',
-        plan_type:'TIPO DE PLAN',
-        enabled:'ACTIVO?'
+    headers = {
+        id: 'ID',
+        region: 'REGION',
+        name: 'NOMBRE',
+        plan_type: 'TIPO DE PLAN',
+        enabled: 'ACTIVO?'
     }
     render() {
         return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, ListGroup, ListGroupItem, Card, Tabs, Tab, Table, Form, FormControl, Button, FormCheck } from 'react-bootstrap';
+import {Row,Col,Tabs, Tab, Table, Form, FormControl, Button, FormCheck } from 'react-bootstrap';
 import { API, APIHEADERS } from '../../utils';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -10,9 +10,9 @@ class PlansNew extends PlansLogic {
     state = {
         plan: {
             id: null,
-            region_id: null,
+            region_id: "",
             region: "",
-            company_id: null,
+            company_id: "",
             company: "",
             name: "",
             plan_type: "",
@@ -29,7 +29,7 @@ class PlansNew extends PlansLogic {
 
     handleSubmit=(e)=>{
         e.preventDefault();
-        Axios.post(API + 'admin/plans', this.state.plan, { headers: APIHEADERS }).then(res => res.data)
+        Axios.post(API + 'plans', this.state.plan, { headers: APIHEADERS }).then(res => res.data)
             .then(result => {
                 if(result.errors===false){
                     alert('Guardado con Exito')
@@ -48,7 +48,6 @@ class PlansNew extends PlansLogic {
                         <React.Fragment>
                             <Col sm={12}>
                                 <h3 className="text-center">{plan.name}</h3>
-
                             </Col>
                             <Col sm={12}>
                                 <Form onSubmit={this.handleSubmit}>
@@ -73,6 +72,7 @@ class PlansNew extends PlansLogic {
                                                         </th>
                                                         <th>
                                                             <FormControl name='company_id' size='sm' as='select' value={plan.company_id} onChange={this.handleMainChange}>
+                                                            <option disabled value="">Seleccione...</option>
                                                                 <option value='1'>Allianz Care</option>
                                                                 <option value='2'>Vumi Group</option>
                                                                 <option value='3'>Best Doctors Insurance</option>
@@ -82,14 +82,20 @@ class PlansNew extends PlansLogic {
                                                         </th>
                                                         <th>
                                                             <FormControl size='sm' name='region_id' as='select' value={plan.region_id} onChange={this.handleMainChange}>
+                                                                <option disabled value="">Seleccione...</option>
                                                                 {this.state.regions.filter(x => x.company_id == plan.company_id).map((region, k) => {
                                                                     return (<option key={k} value={region.id}>{region.name}</option>)
                                                                 })}
                                                             </FormControl>
                                                         </th>
-                                                        <th>{plan.plan_type}</th>
+                                                        <th> <FormControl name='plan_type' size='sm' as='select' value={plan.plan_type} onChange={this.handleMainChange}>
+                                                        <option disabled value="">Seleccione...</option>
+                                                                <option value='Normal'>Normal</option>
+                                                                <option value='Joint'>Joint</option>
+                                                            </FormControl></th>
                                                         <th>
                                                             <FormControl name='enabled' size='sm' as='select' value={plan.enabled} onChange={this.handleMainChange}>
+                                                            <option disabled value="">Seleccione...</option>
                                                                 <option value='1'>Activo</option>
                                                                 <option value='0'>Inactivo</option>
                                                             </FormControl>
