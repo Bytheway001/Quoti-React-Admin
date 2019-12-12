@@ -2,14 +2,10 @@ import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 export const List = (props) => {
-    let data = props.data;
-    if(props.headers){
-        var headers=props.headers
-    }
-    else{
-        var headers = data[0] ? Object.keys(data[0]) : []
-    }
 
+    let data = props.data;
+    const headers = props.headers || data[0]?Object.keys(data[0]):[]
+    
     return (
         <Table size='sm' variant="bordered">
             <thead>

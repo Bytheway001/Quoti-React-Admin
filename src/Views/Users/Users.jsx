@@ -1,87 +1,48 @@
 import React from 'react'
-import { Switch, Route,Link } from 'react-router-dom';
-import { API } from '../../utils';
-import axios from 'axios';
-import { Container, Col, Row, Table } from 'react-bootstrap'
-import UserShow from './UserShow';
-import UserEdit from './UserEdit';
-import { List } from '../../Components/List';
-import CrudIndex from '../crud/Index';
-class Users extends React.Component {
-    headers ={id:'ID',first_name:'NOMBRE',last_name:'APELLIDOS',role:'ROL',email:'E-MAIL'}
-    state = {
-        userList: []
-    }
-    componentDidMount() {
-        axios.get(API + 'users').then(res => res.data)
-            .then(result => {
-                this.setState({
-                    ...this.state,
-                    userList: result
-                })
-            })
-    }
+import { Switch, Route } from 'react-router-dom';
+import { Container, Row, Col, Card } from 'react-bootstrap'
+import Form from './Form';
+import List from './List';
+import { getUserList, getUserInfo, clearUserInfo, createUser, updateUser, deleteUser } from '../../ducks/user';
+import { connect } from 'react-redux';
+import { getRegionList } from '../../ducks/regions';
+import { getCountryList } from '../../ducks/countries';
 
-    render() {
-        return (
-            <Container fluid>
-                <Switch>
-                    <Route exact path='/users' render={() => <CrudIndex headers={this.headers} for='users'/>}></Route>
-                    <Route exact path='/users/:id' component={UserShow}/>
-                    <Route path='/users/:id/edit' component={UserEdit}/>
-                </Switch>
-            </Container>
-        )
-    }
+export const Users = (props) => {
+    return (
+        <Container fluid style={{ marginTop: 30 }}>
+            <Row>
+                <Col>
+                    <Card>
+                        <Card.Body>
+                            <Switch>
+                                <Route exact path='/users' render={(matchProps) => <List {...props} />} />
+                                <Route exact path='/users/new' render={(matchProps) => <Form {...props} />} />
+                                <Route exact path='/users/:id/edit' render={(matchProps) => <Form {...props} {...matchProps} />} />
+                            </Switch>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
+    )
 }
 
-const Lista = (props) => (
-    <Row>
-        <Col sm={12}>
-            <h3 className="text-center">Listado de Usuarios</h3>
-        </Col>
-        <Col sm={12}>
-            <Table size='sm' variant="bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Email</th>
-                        <th>Nombres</th>
-                        <th>Rol</th>
-                        <th>Status</th>
-                        <th className='text-center' colSpan={3}>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        props.users.map((user,key)=>{
-                            return(
-                                <tr key={key} >
-                                    <td>{user.id}</td>
-                                    <td >{user.email}</td>
-                                    <td style={{textTransform:'capitalize'}}>{user.first_name+' '+user.last_name}</td>
-                                    <td style={{textTransform:'capitalize'}}>{user.role}</td>
-                                    <td>--</td>
-                                    <td><Link to={'/users/'+user.id}> Ver</Link></td>
-                                    <td>Editar</td>
-                                    <td>Eliminar</td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
-        </Col>
+const mapStateToProps = state => ({
+    users: state.users,
+    regions: state.regions,
+    countries: state.countries
+})
 
-    </Row>
-)
+const mapDispatchToProps = dispatch => ({
+    getUserList: () => dispatch(getUserList()),
+    getRegionList: () => dispatch(getRegionList()),
+    getCountryList: () => dispatch(getCountryList()),
+    getUserInfo: (id) => dispatch(getUserInfo(id)),
+    clearUserInfo: () => dispatch(clearUserInfo()),
+    createUser: (email, first_name, last_name, role, enabled, license, regions, countries) => dispatch(createUser(email, first_name, last_name, role, enabled, license, regions, countries)),
+    updateUser: (id, email, first_name, last_name, role, enabled, license, regions, countries) => dispatch(updateUser(id, email, first_name, last_name, role, enabled, license, regions, countries)),
+    deleteUser: (id) => dispatch(deleteUser(id))
+})
 
-function getRowBg(role){
-    let roles = {
-        admin:'green',
-        agent:'blue',
-        client:'white'
-    }
-    return roles[role]
-}
-export default Users
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Switch, Route,Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { API } from '../../utils';
 import axios from 'axios';
-import { Container, Col, Row, Table } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { List } from '../../Components/List';
 import RegionShow from './RegionShow';
 import RegionsEdit from './RegionsEdit';

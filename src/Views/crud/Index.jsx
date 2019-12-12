@@ -1,7 +1,7 @@
 import React from 'react';
 import Axios from 'axios';
 import { API } from '../../utils';
-import { Row, Col, Card, Table } from 'react-bootstrap';
+import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 class CrudIndex extends React.Component{
     state={
@@ -19,6 +19,7 @@ class CrudIndex extends React.Component{
                     <Card>
                         <Card.Header className='text-center'>LISTADO</Card.Header>
                         <Card.Body>
+                            <Button className='my-2' size='sm' as={Link} to={this.props.for+'/new'}>Nuevo</Button>
                             <Table size='sm'>
                                 <thead>
                                     <tr>
@@ -29,9 +30,9 @@ class CrudIndex extends React.Component{
                                 </thead>
                                 <tbody>
                                     {
-                                        this.state.resource.map(element=>{
+                                        this.state.resource.map((element,index)=>{
                                             return(
-                                                <tr>
+                                                <tr key={index}>
                                                     {
                                                         headerkeys.map((key,index)=>{
                                                             return(

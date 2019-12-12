@@ -3,19 +3,15 @@ import { Switch, Route, Link } from 'react-router-dom';
 import Users from './Views/Users/Users';
 import Plans from './Views/Plans/Plans';
 import './App.css'
-import { ListGroup } from 'react-bootstrap';
 import Regions from './Views/Regions/Regions';
-import CrudContainer from './Views/crud/Container';
-import UserEdit from './Views/Users/UserEdit';
-import UserShow from './Views/Users/UserShow';
-import FileEdit from './Views/Files/Edit';
+
 import Files from './Views/Files/Files';
 const styles = {
   sidebar: {
     flex: 1,
 
     background: 'rgba(255,255,255,0.04)',
- 
+
 
   },
   page: {
@@ -40,10 +36,10 @@ class App extends React.Component {
     return (
       <BasicLayout>
         <Switch>
-        <Route path='/users' component={Users} />
-        <Route path='/regions' component={()=><Regions/>} />
-        <Route path='/files' component={()=><Files/>} />
-        <Route path='/plans' component={()=><Plans/>} />
+          <Route path='/users' component={Users} />
+          <Route path='/regions' component={() => <Regions />} />
+          <Route path='/files' component={() => <Files />} />
+          <Route path='/plans' component={() => <Plans />} />
         </Switch>
       </BasicLayout>
 
