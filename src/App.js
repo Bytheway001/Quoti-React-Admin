@@ -66,7 +66,7 @@ const BasicLayout = (props) => (
       {props.children}
     </div>
   </div>
-)
 
+)
 
 export default App;
