@@ -5,15 +5,14 @@ import { TableActions } from '../../Components/TableActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 
+
 const currentURL = 'http://www.quotiapp.com';
 const UserList = (props) => {
-
     useEffect(() => {
         props.getUserList();
     }, []);
 
     let list = props.users.list
-
     return (
         <Fragment>
             <h3 className="text-center">Listado de Usuarios</h3>
@@ -60,8 +59,10 @@ const UserList = (props) => {
                     }
                 </tbody>
             </Table>
-        </Fragment>
+        }
+        </Fragment >
     )
+  
 }
 
 

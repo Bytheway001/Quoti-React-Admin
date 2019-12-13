@@ -53,7 +53,7 @@ function RegionReducer(state = initialState, action) {
                 fetchingList:false,
                 list:action.list
             }
-        case REGION_LIST_REQUESTED:
+        case REGION_LIST_FAILED:
             return {
                 ...state,
                 fetchingList:false
