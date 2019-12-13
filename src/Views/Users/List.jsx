@@ -3,11 +3,9 @@ import { Link } from 'react-router-dom';
 import { Button, Table, ButtonGroup } from 'react-bootstrap';
 import { TableActions } from '../../Components/TableActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 const currentURL = 'http://www.quotiapp.com';
-
 const UserList = (props) => {
 
     useEffect(() => {
@@ -23,6 +21,7 @@ const UserList = (props) => {
             <Table size='xs'>
                 <thead>
                     <tr>
+                        <th><FontAwesomeIcon icon={faCircle} color='gray'/></th>
                         <th>ID</th>
                         <th>Email</th>
                         <th>Nombre</th>
@@ -39,6 +38,7 @@ const UserList = (props) => {
                         list.map((user, index) => {
                             return (
                                 <tr key={index}>
+                                    <th><FontAwesomeIcon icon={faCircle} color={user.enabled==1?'green':'red'}/></th>
                                     <td>{user.id}</td>
                                     <td>{user.email}</td>
                                     <td>{user.first_name}</td>

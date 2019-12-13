@@ -70,6 +70,7 @@ const UserForm = (props) => {
         setCountries(countries)
     }
 
+
     return (
         <Form onSubmit={handleSubmit}>
 
@@ -103,9 +104,10 @@ const UserForm = (props) => {
                                         </FormControl>
                                     </FormGroup>
                                     <FormGroup>
+                                   
                                         <FormLabel>Status</FormLabel>
-                                        <FormControl size='sm' as='select' name='enabled' value={enabled || ''} onChange={({ target }) => setEnabled(target.value)} >>
-                                        <option value=''>Seleccione...</option>
+                                        <FormControl size='sm' as='select' name='enabled' value={enabled.toString() || ''} onChange={({ target }) => setEnabled(target.value)} >>
+                                            <option value=''>Seleccione...</option>
                                             <option value='1'>Activo</option>
                                             <option value='0'>Inactivo</option>
                                         </FormControl>
