@@ -74,7 +74,11 @@ export const createUser = (email, first_name,last_name, role, enabled,license, r
     return dispatch => {
         dispatch(onUserCreateRequested());
         Axios.post(API + 'users', { email, first_name,last_name, role, enabled,license, regions, countries}).then(res => {
+            alert('User Created')
             dispatch(onUserCreateSucceeded(res.data))
+        })
+        .catch(err=>{
+            alert("Could not create user");
         })
     }
 }
@@ -83,7 +87,11 @@ export const updateUser = (id, email, first_name,last_name, role, enabled,licens
     return dispatch => {
         dispatch(onUserCreateRequested());
         Axios.put(API + 'users/' + id, { email, first_name, last_name, role, enabled, regions, countries,license }).then(res => {
+            alert('User Updated')
             dispatch(onUserCreateSucceeded(res.data))
+        })
+        .catch(err=>{
+            alert('Could not update user')
         })
     }
 }
