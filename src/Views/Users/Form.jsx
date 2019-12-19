@@ -106,7 +106,7 @@ const UserForm = (props) => {
                                     <FormGroup>
                                    
                                         <FormLabel>Status</FormLabel>
-                                        <FormControl size='sm' as='select' name='enabled' value={enabled.toString() || ''} onChange={({ target }) => setEnabled(target.value)} >>
+                                        <FormControl size='sm' as='select' name='enabled' value={enabled && enabled.toString() || ''} onChange={({ target }) => setEnabled(target.value)} >>
                                             <option value=''>Seleccione...</option>
                                             <option value='1'>Activo</option>
                                             <option value='0'>Inactivo</option>
