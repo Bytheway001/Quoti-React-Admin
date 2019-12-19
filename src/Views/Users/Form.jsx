@@ -23,6 +23,7 @@ const UserForm = (props) => {
     }, [props.match.params.id])
 
     useEffect(() => {
+        console.log(props.users.editing)
         setEmail(props.users.editing.email)
         setFirstName(props.users.editing.first_name)
         setLastName(props.users.editing.last_name)
@@ -34,13 +35,16 @@ const UserForm = (props) => {
     }, [props.users.editing])
 
     const handleSubmit = (e) => {
+ 
         e.preventDefault();
+      
         if (props.match.params.id) {
             props.updateUser(props.match.params.id, email, first_name,last_name, role, enabled,license, regions, countries)
         }
         else {
-            props.createUser(email,first_name, last_name,license, role, enabled,license,regions, countries)
+            props.createUser(email, first_name,last_name, role, enabled,license, regions, countries)
         }
+      
     }
 
     const toggleRegion = (checked, regionId) => {

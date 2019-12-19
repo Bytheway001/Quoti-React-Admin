@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => ({
     getCountryList: () => dispatch(getCountryList()),
     getUserInfo: (id) => dispatch(getUserInfo(id)),
     clearUserInfo: () => dispatch(clearUserInfo()),
-    createUser: (email, first_name, last_name, role, enabled, license, regions, countries) => dispatch(createUser(email, first_name, last_name, role, enabled, license, regions, countries)),
+    createUser: (email, first_name,last_name, role, enabled,license, regions, countries) => dispatch(createUser(email, first_name,last_name, role, enabled,license, regions, countries)),
     updateUser: (id, email, first_name, last_name, role, enabled, license, regions, countries) => dispatch(updateUser(id, email, first_name, last_name, role, enabled, license, regions, countries)),
     deleteUser: (id) => dispatch(deleteUser(id))
 })

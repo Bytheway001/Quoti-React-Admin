@@ -73,7 +73,7 @@ export const getUserInfo = (id) => {
 export const createUser = (email, first_name,last_name, role, enabled,license, regions, countries) => {
     return dispatch => {
         dispatch(onUserCreateRequested());
-        Axios.post(API + 'users', { email, first_name, last_name, role, enabled, regions, countries,license }).then(res => {
+        Axios.post(API + 'users', { email, first_name,last_name, role, enabled,license, regions, countries}).then(res => {
             dispatch(onUserCreateSucceeded(res.data))
         })
     }
