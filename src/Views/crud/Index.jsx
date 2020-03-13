@@ -4,6 +4,7 @@ import { API } from '../../utils';
 import { Row, Col, Card, Table, Button } from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import { CrudTable } from './Table';
+
 class CrudIndex extends React.Component{
     state={
         resource:[]
@@ -15,13 +16,13 @@ class CrudIndex extends React.Component{
         let headers= this.props.headers
         let headerkeys = Object.keys(headers)
         return(
-            <Row>
+            <Row id='crudIndex'>
                 <Col sm={12}>
                     <Card>
                         <Card.Header className='text-center'>LISTADO</Card.Header>
                         <Card.Body>
                             <Button className='my-2' size='sm' as={Link} to={this.props.for+'/new'}>Nuevo</Button>
-                           <CrudTable headers={headers} headerkeys={headerkeys} for={this.props.for} resource={this.state.resource}></CrudTable>
+                            <CrudTable headers={headers} headerkeys={headerkeys} for={this.props.for} resource={this.state.resource}></CrudTable>
                         </Card.Body>
                     </Card>
           

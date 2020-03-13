@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 import Users from './Views/Users/Users';
 import Plans from './Views/Plans/Plans';
-import './App.css'
+import './application.scss'
 import Regions from './Views/Regions/Regions';
 
 import Files from './Views/Files/Files';
@@ -10,7 +10,7 @@ const styles = {
   sidebar: {
     flex: 1,
 
-    background: 'rgba(255,255,255,0.04)',
+   
 
 
   },
@@ -36,7 +36,7 @@ class App extends React.Component {
     return (
       <BasicLayout>
         <Switch>
-          <Route path='/users' component={Users} />
+          <Route path='/users' component={()=><Users/>} />
           <Route path='/regions' component={() => <Regions />} />
           <Route path='/files' component={() => <Files />} />
           <Route path='/plans' component={() => <Plans />} />

@@ -1,12 +1,292 @@
-import React from 'react';
-import {Row,Col,Tabs, Tab, Table, Form, FormControl, Button, FormCheck } from 'react-bootstrap';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Row, Col, Tabs, Tab, Table, Form, FormControl, Button, FormCheck, Card, FormGroup, FormLabel } from 'react-bootstrap';
 import { API, APIHEADERS } from '../../utils';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import InputFiles from 'react-input-files';
 import PlansLogic from './PlansLogic';
+const testDeds = [
+    { in: 1, out: 2 },
+    { in: 3, out: 4 },
+    { in: 5, out: 6 }
+]
+const PlansNew = ({ location, regions, getRegionList }) => {
+    const [region_id, setRegionId] = useState('');
+    const [company_id, setCompanyId] = useState('');
+    const [name, setName] = useState('');
+    const [plan_type, setPlanType] = useState('');
+    const [enabled, setEnabled] = useState(0);
+    const [deductibles, setDeductibles] = useState(testDeds);
+    const [rates, setRates] = useState([]);
+    const [kidRates, setKidRates] = useState([]);
+    const [endosos, setEndosos] = useState([]);
+    const [formIn, setFormIn] = useState('');
+    const [formOut, setFormOut] = useState("");
 
-class PlansNew extends PlansLogic {
+
+    useEffect(() => {
+        getRegionList();
+    }, [])
+
+    const removeDedOption = (inside) => {
+        let x = deductibles.filter(x => x.in !== inside);
+        setDeductibles([...x])
+    }
+    const addDedOption = () => {
+        let inside = formIn;
+        let outside = formOut;
+        setDeductibles([...deductibles, { in: inside, out: outside }]);
+        setFormIn('');
+        setFormOut("")
+    }
+
+    const updateRates = (key, rate, isNew) => {
+       
+        if (isNew) {
+            console.log('NEW RATE')
+            rates.push(rate)
+            setRates([...rates])
+        }
+        else {
+            console.log("OLD RATE")
+            rates[key] = rate
+        }
+    }
+
+
+    return (
+        <Row id='planForm'>
+            {JSON.stringify(rates)}
+            <Col sm={12}>
+                <Tabs defaultActiveKey="rates" className='nav-justified'>
+                    <Tab eventKey="general" title="Plan">
+                        <Row>
+                            <Col sm={6}>
+                                <Card className='h-100'>
+                                    <Card.Header>PLAN</Card.Header>
+                                    <Card.Body>
+                                        <FormGroup>
+                                            <FormLabel>Nombre del Plan</FormLabel>
+                                            <FormControl size='sm' name='name' value={name} onChange={({ target }) => setName(target.value)} />
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <FormLabel>Aseguradora</FormLabel>
+                                            <FormControl name='company_id' size='sm' as='select' value={company_id} onChange={({ target }) => setCompanyId(target.value)}>
+                                                <option disabled value="">Seleccione...</option>
+                                                <option value='1'>Allianz Care</option>
+                                                <option value='2'>Vumi Group</option>
+                                                <option value='3'>Best Doctors Insurance</option>
+                                                <option value='5'>Bupa Salud</option>
+                                                <option value='6'>BMI</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <FormLabel>Region</FormLabel>
+                                            <FormControl size='sm' name='region_id' as='select' value={region_id} onChange={({ target }) => setRegionId(target.value)}>
+                                                <option disabled value="">Seleccione...</option>
+                                                {regions && regions.list.filter(x => x.company_id == company_id).map((region, k) => {
+                                                    return (<option key={k} value={region.id}>{region.name}</option>)
+                                                })}
+                                            </FormControl>
+                                        </FormGroup>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col sm={6}>
+                                <Card>
+                                    <Card.Header>Configuracion del Plan</Card.Header>
+                                    <Card.Body>
+                                        <FormGroup>
+                                            <FormLabel>Tipo de Plan</FormLabel>
+                                            <FormControl name='plan_type' size='sm' as='select' value={plan_type} onChange={({ target }) => setPlanType(target.value)}>
+                                                <option disabled value="">Seleccione...</option>
+                                                <option value='Normal'>Normal</option>
+                                                <option value='Joint'>Joint</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <FormLabel>Activo por Defecto</FormLabel>
+                                            <FormControl name='enabled' size='sm' as='select' value={enabled} onChange={({ target }) => setEnabled(target.value)}>
+                                                <option disabled value="">Seleccione...</option>
+                                                <option value='1'>Activo</option>
+                                                <option value='0'>Inactivo</option>
+                                            </FormControl>
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <FormLabel className='d-block text-center'>Opciones de Deducible</FormLabel>
+                                            <Row>
+                                                <Col sm={4}>
+                                                    <FormControl size='sm' value={formIn} placeholder='Inside USA' onChange={({ target }) => setFormIn(target.value)} />
+                                                </Col>
+                                                <Col sm={4}>
+
+                                                    <FormControl size='sm' value={formOut} placeholder='Outside USA' onChange={({ target }) => setFormOut(target.value)} />
+                                                </Col>
+                                                <Col sm={4}>
+
+                                                    <Button size='sm' variant='success' onClick={() => addDedOption()}>Agregar</Button>
+                                                </Col>
+                                            </Row>
+                                            <Row className='my-2'>
+                                                <Col sm={12}>
+                                                    <Table size='sm'>
+                                                        <thead>
+                                                            <tr>
+                                                                <th className='blue' style={{ width: '33%' }}>Inside</th>
+                                                                <th className='blue'>Outside</th>
+                                                                <th>--</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {
+                                                                deductibles.map((deductible) => (
+                                                                    <tr>
+                                                                        <td>
+                                                                            <label className='my-0'>{deductible.in}</label>
+                                                                        </td>
+                                                                        <td sm={4}>
+                                                                            <label className='my-0'>{deductible.out}</label>
+                                                                        </td>
+                                                                        <td sm={4}>
+                                                                            <Button size='sm' variant='danger' onClick={() => removeDedOption(deductible.in)}>Quitar</Button>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                ))
+                                                            }
+                                                        </tbody>
+                                                    </Table>
+                                                </Col>
+                                            </Row>
+                                        </FormGroup>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        </Row>
+                        <Row className='my-5'>
+                            <Col sm={12} className='d-flex justify-content-end'>
+                                <Button>Siguiente</Button>
+                            </Col>
+                        </Row>
+                    </Tab>
+                    <Tab eventKey="rates" title="Tarifas">
+                        {
+                            deductibles.length > 0 ?
+                                <Table size='sm' variant='bordered' id='tarifario'>
+                                    <thead>
+                                        <tr className='blue-bg'>
+                                            <th style={{ width: '25%' }} colSpan={2} className='col-right'>En Usa</th>
+                                            {deductibles.map(x => <th className='text-right col-right' colSpan={2}>${x.in}</th>)}
+                                        </tr>
+                                        <tr className='blue-bg'>
+                                            <th style={{ width: '25%' }} colSpan={2} className='col-right'>Fuera de USA</th>
+                                            {deductibles.map(x => <th className='text-right col-right' colSpan={2}>${x.out}</th>)}
+                                        </tr>
+                                        <tr style={{ backgroundColor: 'gray', color: 'black' }}>
+                                            <th>Min.</th>
+                                            <th className='col-right'>Max</th>
+                                            {deductibles.map(x =>
+                                                <Fragment>
+                                                    <th>Anual</th>
+                                                    <th className='col-right'>Semestral</th>
+                                                </Fragment>
+                                            )}
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            rates.map((rate, key) => (
+                                                <RateRow isNew={false} rate={rate} key={key} deductibles={deductibles} updateRates={updateRates} />
+                                            ))
+                                        }
+                                        <RateRow isNew={true} index={null} deductibles={deductibles} updateRates={updateRates} />
+                                    </tbody>
+                                </Table>
+                                : null
+                        }
+
+                    </Tab>
+                    <Tab eventKey="endosos" title="Endosos"></Tab>
+                    <Tab eventKey="kidrates" title="Tarifas (Niños)"></Tab>
+                </Tabs>
+            </Col>
+
+        </Row >
+    )
+}
+/*
+{min_age,max_age,deductible,yearly_price,biyearly_price,deductible_out}
+*/
+
+
+const RateRow = ({ deductibles, updateRates, rate, index, isNew }) => {
+    const changeField = (field, value) => {
+        rate = { ...rate, [field]: value }
+        updateRates(index, rate, isNew)
+    }
+    return (
+        <tr style={{ color: 'black' }}>
+            <td>{index}</td>
+            <td>
+                <FormControl size='sm' min={0} max={99} type='number' onChange={({ target }) => changeField('min_age', target.value)} />
+            </td>
+            <td className='col-right'>
+                <FormControl size='sm' min={0} max={99} type='number' />
+            </td>
+            {deductibles.map(x => <Fragment>
+                <th> <FormControl size='sm' min={0} type='number' /></th>
+                <th className='col-right'> <FormControl size='sm' min={0} type='number' /></th>
+            </Fragment>
+            )}
+        </tr>
+    )
+
+    /*
+
+    if (isNew) {
+        return (
+            <tr style={{ color: 'black' }}>
+                <td>{key}</td>
+                <td>
+                    <FormControl size='sm' min={0} max={99} type='number' onChange={({ target }) => changeField('min_age', target.value)} />
+                </td>
+                <td className='col-right'>
+                    <FormControl size='sm' min={0} max={99} type='number' />
+                </td>
+                {deductibles.map(x => <Fragment>
+                    <th> <FormControl size='sm' min={0} type='number' /></th>
+                    <th className='col-right'> <FormControl size='sm' min={0} type='number' /></th>
+                </Fragment>
+                )}
+            </tr>
+        )
+    }
+    else {
+        return (
+            <tr style={{ color: 'black' }}>
+
+                <td>
+                    <FormControl size='sm' min={0} max={99} type='number' />
+                </td>
+                <td className='col-right'>
+                    <FormControl size='sm' min={0} max={99} type='number' />
+                </td>
+                {deductibles.map(x => <Fragment>
+                    <th> <FormControl size='sm' min={0} type='number' /></th>
+                    <th className='col-right'> <FormControl size='sm' min={0} type='number' /></th>
+                </Fragment>
+                )}
+            </tr>
+        )
+    }
+    */
+
+}
+
+
+
+class PlanxsNew extends PlansLogic {
     state = {
         plan: {
             id: null,
@@ -21,17 +301,17 @@ class PlansNew extends PlansLogic {
             kid_rates: [],
             endosos: []
         },
-        regions:[]
+        regions: []
     }
     componentDidMount() {
         this.getRegions()
     }
 
-    handleSubmit=(e)=>{
+    handleSubmit = (e) => {
         e.preventDefault();
         Axios.post(API + 'plans', this.state.plan, { headers: APIHEADERS }).then(res => res.data)
             .then(result => {
-                if(result.errors===false){
+                if (result.errors === false) {
                     alert('Guardado con Exito')
                 }
             })
@@ -41,8 +321,8 @@ class PlansNew extends PlansLogic {
     render() {
         let plan = this.state.plan
         return (
-            <Row>
-              
+            <Row id='planForm'>
+
                 {
                     plan ?
                         <React.Fragment>
@@ -72,7 +352,7 @@ class PlansNew extends PlansLogic {
                                                         </th>
                                                         <th>
                                                             <FormControl name='company_id' size='sm' as='select' value={plan.company_id} onChange={this.handleMainChange}>
-                                                            <option disabled value="">Seleccione...</option>
+                                                                <option disabled value="">Seleccione...</option>
                                                                 <option value='1'>Allianz Care</option>
                                                                 <option value='2'>Vumi Group</option>
                                                                 <option value='3'>Best Doctors Insurance</option>
@@ -89,13 +369,13 @@ class PlansNew extends PlansLogic {
                                                             </FormControl>
                                                         </th>
                                                         <th> <FormControl name='plan_type' size='sm' as='select' value={plan.plan_type} onChange={this.handleMainChange}>
-                                                        <option disabled value="">Seleccione...</option>
-                                                                <option value='Normal'>Normal</option>
-                                                                <option value='Joint'>Joint</option>
-                                                            </FormControl></th>
+                                                            <option disabled value="">Seleccione...</option>
+                                                            <option value='Normal'>Normal</option>
+                                                            <option value='Joint'>Joint</option>
+                                                        </FormControl></th>
                                                         <th>
                                                             <FormControl name='enabled' size='sm' as='select' value={plan.enabled} onChange={this.handleMainChange}>
-                                                            <option disabled value="">Seleccione...</option>
+                                                                <option disabled value="">Seleccione...</option>
                                                                 <option value='1'>Activo</option>
                                                                 <option value='0'>Inactivo</option>
                                                             </FormControl>

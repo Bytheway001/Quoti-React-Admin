@@ -23,7 +23,7 @@ const UserForm = (props) => {
     }, [props.match.params.id])
 
     useEffect(() => {
-        console.log(props.users.editing)
+ 
         setEmail(props.users.editing.email)
         setFirstName(props.users.editing.first_name)
         setLastName(props.users.editing.last_name)
@@ -135,7 +135,7 @@ const UserForm = (props) => {
                                                 <BootstrapSwitchButton
                                                     checked={regions && regions.find(x => { return x.region === region.id }) ? regions.find(x => { return x.region === region.id }).checked : false}
                                                     onChange={(e) => { toggleRegion(e, region.id) }}
-                                                    size='sm'
+                                               
                                                     onlabel={region.name}
                                                     offlabel={region.name}
                                                     onstyle='success' offstyle='danger'

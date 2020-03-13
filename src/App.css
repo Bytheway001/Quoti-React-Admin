@@ -36,3 +36,12 @@ p{
     background-color:#DF691A;
     color:white
 }
+
+.table td{
+    vertical-align: middle;
+    
+}
+
+.table .btn{
+    border-radius:5px;
+}

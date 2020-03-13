@@ -1,4 +1,4 @@
-export const API = 'https://quotyapi.megabrokerslatam.co/api/admin/';
+export const API = 'http://127.0.0.1:500/api/admin/';
 export const APIHEADERS = { 'CALL-TYPE': 'API' }
 export function parseCSV(csvstring, separator, linebreak, validator) {
     var result = [];
@@ -44,4 +44,11 @@ export function arraysEqual(arr1, arr2) {
     }
 
     return true;
+}
+
+export const responsiveText =(large,small)=>{
+    if(window.innerWidth>768){
+        return large
+    }
+    return small
 }
