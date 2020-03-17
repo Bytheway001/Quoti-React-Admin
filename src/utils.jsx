@@ -1,4 +1,4 @@
-export const API = 'http://127.0.0.1:500/api/admin/';
+export const API = 'https://api.megabrokerslatam.com/api/admin/';
 export const APIHEADERS = { 'CALL-TYPE': 'API' }
 export function parseCSV(csvstring, separator, linebreak, validator) {
     var result = [];
