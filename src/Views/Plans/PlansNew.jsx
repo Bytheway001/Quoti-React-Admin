@@ -5,6 +5,7 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import InputFiles from 'react-input-files';
 import PlansLogic from './PlansLogic';
+import { RateRow } from './components/RateRow';
 const testDeds = [
     { in: 1, out: 2 },
     { in: 3, out: 4 },
@@ -195,12 +196,13 @@ const PlansNew = ({ location, regions, getRegionList }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <RateRow isNew={true} index={null} deductibles={deductibles} updateRates={updateRates} />
                                         {
                                             rates.map((rate, key) => (
                                                 <RateRow isNew={false} rate={rate} key={key} deductibles={deductibles} updateRates={updateRates} />
                                             ))
                                         }
-                                        <RateRow isNew={true} index={null} deductibles={deductibles} updateRates={updateRates} />
+                                     
                                     </tbody>
                                 </Table>
                                 : null
@@ -215,74 +217,7 @@ const PlansNew = ({ location, regions, getRegionList }) => {
         </Row >
     )
 }
-/*
-{min_age,max_age,deductible,yearly_price,biyearly_price,deductible_out}
-*/
 
-
-const RateRow = ({ deductibles, updateRates, rate, index, isNew }) => {
-    const changeField = (field, value) => {
-        rate = { ...rate, [field]: value }
-        updateRates(index, rate, isNew)
-    }
-    return (
-        <tr style={{ color: 'black' }}>
-            <td>{index}</td>
-            <td>
-                <FormControl size='sm' min={0} max={99} type='number' onChange={({ target }) => changeField('min_age', target.value)} />
-            </td>
-            <td className='col-right'>
-                <FormControl size='sm' min={0} max={99} type='number' />
-            </td>
-            {deductibles.map(x => <Fragment>
-                <th> <FormControl size='sm' min={0} type='number' /></th>
-                <th className='col-right'> <FormControl size='sm' min={0} type='number' /></th>
-            </Fragment>
-            )}
-        </tr>
-    )
-
-    /*
-
-    if (isNew) {
-        return (
-            <tr style={{ color: 'black' }}>
-                <td>{key}</td>
-                <td>
-                    <FormControl size='sm' min={0} max={99} type='number' onChange={({ target }) => changeField('min_age', target.value)} />
-                </td>
-                <td className='col-right'>
-                    <FormControl size='sm' min={0} max={99} type='number' />
-                </td>
-                {deductibles.map(x => <Fragment>
-                    <th> <FormControl size='sm' min={0} type='number' /></th>
-                    <th className='col-right'> <FormControl size='sm' min={0} type='number' /></th>
-                </Fragment>
-                )}
-            </tr>
-        )
-    }
-    else {
-        return (
-            <tr style={{ color: 'black' }}>
-
-                <td>
-                    <FormControl size='sm' min={0} max={99} type='number' />
-                </td>
-                <td className='col-right'>
-                    <FormControl size='sm' min={0} max={99} type='number' />
-                </td>
-                {deductibles.map(x => <Fragment>
-                    <th> <FormControl size='sm' min={0} type='number' /></th>
-                    <th className='col-right'> <FormControl size='sm' min={0} type='number' /></th>
-                </Fragment>
-                )}
-            </tr>
-        )
-    }
-    */
-
-}
 
 
 
