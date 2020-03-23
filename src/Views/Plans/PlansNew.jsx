@@ -1,11 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Row, Col, Tabs, Tab, Table, Form, FormControl, Button, FormCheck, Card, FormGroup, FormLabel } from 'react-bootstrap';
-import { API, APIHEADERS } from '../../utils';
+import { API, APIHEADERS,groupBy } from '../../utils';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import InputFiles from 'react-input-files';
 import PlansLogic from './PlansLogic';
-import { RateRow } from './components/RateRow';
+import { RateRow, RateSetRow } from './components/RateRow';
 const testDeds = [
     { in: 1, out: 2 },
     { in: 3, out: 4 },
@@ -24,7 +24,7 @@ const PlansNew = ({ location, regions, getRegionList }) => {
     const [formIn, setFormIn] = useState('');
     const [formOut, setFormOut] = useState("");
 
-
+   
     useEffect(() => {
         getRegionList();
     }, [])
@@ -41,20 +41,16 @@ const PlansNew = ({ location, regions, getRegionList }) => {
         setFormOut("")
     }
 
-    const updateRates = (key, rate, isNew) => {
-       
-        if (isNew) {
-            console.log('NEW RATE')
-            rates.push(rate)
-            setRates([...rates])
-        }
-        else {
-            console.log("OLD RATE")
-            rates[key] = rate
-        }
+    const addRates = (ratesArray) => {
+       let or = rates;
+       console.log(ratesArray,or)
+    
+        ratesArray.map(r=>{or.push(r)})
+        setRates([...or])
+      
     }
-
-
+    console.log(rates,'---------------')
+    
     return (
         <Row id='planForm'>
             {JSON.stringify(rates)}
@@ -196,13 +192,12 @@ const PlansNew = ({ location, regions, getRegionList }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <RateRow isNew={true} index={null} deductibles={deductibles} updateRates={updateRates} />
                                         {
-                                            rates.map((rate, key) => (
-                                                <RateRow isNew={false} rate={rate} key={key} deductibles={deductibles} updateRates={updateRates} />
+                                            groupBy(rates,(c)=>c.min_age).map((rate, key) => (
+                                                <RateSetRow rate={rate} key={key} deductibles={deductibles}  />
                                             ))
                                         }
-                                     
+                                        <RateRow isNew={true} index={null} deductibles={deductibles} addRates={addRates} />
                                     </tbody>
                                 </Table>
                                 : null
