@@ -42,7 +42,7 @@ const FileNew = ({history}) => {
     return (
         <Row style={{ padding: 30 }}>
             <Col xs={12}>
-                <h1 className='text-center'>Admin</h1>
+                <h1 className='text-center'>Nuevo Documento</h1>
             </Col>
             <Col xs={6}>
                 <Form onSubmit={handleSubmit}>
@@ -90,7 +90,7 @@ const FileNew = ({history}) => {
             </Col>
             <Col xs={6}>
                 <FormGroup>
-                    <label htmlFor="">Categoria</label>
+                    <label htmlFor="">Archivo</label>
                     <FormControl name='file' type='file' onChange={({target})=>setFile(target.files[0])} />
                 </FormGroup>
 
