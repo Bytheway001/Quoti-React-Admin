@@ -120,6 +120,7 @@ p {
   }
   .form-control {
     border: $darkBlue 1px solid;
+    
     box-shadow: none;
   }
 }
@@ -140,4 +141,7 @@ p {
       padding:0
     }
   }
+}
+.form-control{
+  border: $darkBlue 1px solid;
 }
