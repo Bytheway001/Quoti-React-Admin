@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import { getRegionList } from '../../ducks/regions';
 import { getCountryList } from '../../ducks/countries';
 import CrudIndex from '../crud/Index';
-import UserEdit from './Edit';
+
 import { NewUser } from './NewUser';
+import UserForm from './Form';
 
 const Users = (props) => {
     const headers = [
@@ -26,6 +27,7 @@ const Users = (props) => {
             <Switch>
                 <Route exact path='/users' render={(matchProps) => <CrudIndex headers={headers} for='users' />} />
                 <Route exact path='/users/new' render={(matchProps) => <NewUser />} />
+                <Route exact path='/users/:id/edit' render={(matchProps) => <UserForm id={matchProps.match.params.id} getUserInfo={props.getUserInfo} />} />
             </Switch>
         </Container>
     )
@@ -46,7 +48,7 @@ const mapDispatchToProps = dispatch => ({
     clearUserInfo: () => dispatch(clearUserInfo()),
     createUser: (email, first_name, last_name, role, enabled, license, regions, countries) => dispatch(createUser(email, first_name, last_name, role, enabled, license, regions, countries)),
     updateUser: (id, email, first_name, last_name, role, enabled, license, regions, countries) => dispatch(updateUser(id, email, first_name, last_name, role, enabled, license, regions, countries)),
-    deleteUser: (id) => dispatch(deleteUser(id))
+    deleteUser: (id) => dispatch(deleteUser(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users)
