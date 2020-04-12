@@ -55,10 +55,10 @@ let UserForm = ({ id, getUserInfo, user, getRegionList, getCountryList, regions,
     return (
         <Form onSubmit={handleSubmit}>
 
-            <Row>
+            <Row noGutters style={{height:'60vh'}}>
                 <Col sm={4}>
-                    <Card>
-                        <Card.Header>Datos Generales</Card.Header>
+                    <Card className='h-100' style={{borderRadius:0}}>
+                        <Card.Header className='text-center'  style={{borderRadius:0}}>Datos Generales</Card.Header>
                         <Card.Body>
 
                             <Form.Group>
@@ -95,9 +95,9 @@ let UserForm = ({ id, getUserInfo, user, getRegionList, getCountryList, regions,
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col sm={4}>
-                    <Card>
-                        <Card.Header>Regiones</Card.Header>
+                <Col sm={4} className='h-100'>
+                    <Card className='h-100'>
+                        <Card.Header className='text-center'  style={{borderRadius:0}}>Regiones</Card.Header>
                         <Card.Body>
 
                             <Row>
@@ -119,8 +119,8 @@ let UserForm = ({ id, getUserInfo, user, getRegionList, getCountryList, regions,
                     </Card>
                 </Col>
                 <Col sm={4}>
-                    <Card>
-                        <Card.Header>Paises</Card.Header>
+                    <Card className='h-100'>
+                        <Card.Header className='text-center' style={{borderRadius:0}}>Paises</Card.Header>
                         <Card.Body>
 
                             <Row>
@@ -142,7 +142,12 @@ let UserForm = ({ id, getUserInfo, user, getRegionList, getCountryList, regions,
                     </Card>
                 </Col>
             </Row>
-                                <Button type='submit'>Enviar</Button>
+            <Row>
+                <Col sm={12} className='text-center mt-2'>
+                <Button type='submit'>Enviar</Button>
+                </Col>
+            </Row>
+                               
         </Form>
     )
 }
