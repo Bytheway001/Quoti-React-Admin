@@ -5,19 +5,17 @@ import { TableActions } from '../../Components/TableActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faCircle } from '@fortawesome/free-solid-svg-icons';
 
-
 const currentURL = 'http://www.quotiapp.com';
 const UserList = (props) => {
     useEffect(() => {
         props.getUserList();
     }, []);
-
     let list = props.users.list
     return (
         <Fragment>
             <h3 className="text-center">Listado de Usuarios</h3>
             <Button className='my-2' as={Link} to='/users/new' variant='success'><FontAwesomeIcon icon={faPlus} /> Nuevo</Button>
-            <Table size='xs'>
+            <Table size='sm'>
                 <thead>
                     <tr>
                         <th><FontAwesomeIcon icon={faCircle} color='gray'/></th>

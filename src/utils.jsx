@@ -1,4 +1,4 @@
-export const API = 'https://quotyapi.megabrokerslatam.co/api/admin/';
+export const API = 'https://api.megabrokerslatam.com/api/admin/';
 export const APIHEADERS = { 'CALL-TYPE': 'API' }
 export function parseCSV(csvstring, separator, linebreak, validator) {
     var result = [];
@@ -45,3 +45,26 @@ export function arraysEqual(arr1, arr2) {
 
     return true;
 }
+
+export const responsiveText = (large, small) => {
+    if (window.innerWidth > 768) {
+        return large
+    }
+    return small
+}
+
+export function groupBy(xs, f) {
+    return xs.reduce((r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), []);
+}
+/*
+const cars = [
+    { make: 'audi', model: 'r8', year: '2012' },
+    { make: 'audi', model: 'rs5', year: '2013' },
+    { make: 'ford', model: 'mustang', year: '2012' },
+    { make: 'ford', model: 'fusion', year: '2015' },
+    { make: 'kia', model: 'optima', year: '2012' }
+];
+
+const result = groupBy(cars, (c) => c.make);
+console.log(result);
+*/

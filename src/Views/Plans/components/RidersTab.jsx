@@ -22,9 +22,9 @@ export const RidersTab = props => {
                                         return (
                                             <tr key={k}>
                                                 <td>{ec.deductible}</td>
-                                                <td><FormCheck name='avaliable' data-endoso={endoso.id} data-id={ec.id} checked={ec.avaliable === 1} onChange={handleEndosoConfigChange} /></td>
-                                                <td><FormCheck name='selected' data-endoso={endoso.id} data-id={ec.id} checked={ec.selected === 1} onChange={handleEndosoConfigChange} /></td>
-                                                <td><FormCheck name='included' data-endoso={endoso.id} data-id={ec.id} checked={ec.included === 1} onChange={handleEndosoConfigChange} /></td>
+                                                <td><FormCheck name='avaliable' data-endoso={endoso.id} data-id={ec.id} checked={ec.avaliable === 1} onClick={handleEndosoConfigChange} /></td>
+                                                <td><FormCheck name='selected' data-endoso={endoso.id} data-id={ec.id} checked={ec.selected === 1} onClick={handleEndosoConfigChange} /></td>
+                                                <td><FormCheck name='included' data-endoso={endoso.id} data-id={ec.id} checked={ec.included === 1} onClick={handleEndosoConfigChange} /></td>
                                             </tr>
                                         )
                                     })}

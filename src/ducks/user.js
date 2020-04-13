@@ -23,7 +23,7 @@ export const USER_DELETE_SUCCEEDED = "USER_DELETE_SUCCEEDED";
 export const USER_DELETE_FAILED = 'USER_DELETE_FAILED';
 
 export const CLEAR_USER_INFO = "CLEAR_USER_INFO";
-
+export const SET_USER_INFO = "SET_USER_INFO";
 
 /** Action Creators */
 
@@ -48,6 +48,7 @@ export const onUserDeleteSucceeded = (id) => ({ type: USER_DELETE_SUCCEEDED, id:
 export const onUserDeleteFailed = () => ({ type: USER_DELETE_FAILED });
 
 export const onClearUserInfo = () => ({ type: CLEAR_USER_INFO })
+export const setUserInfo = (user)=>({type:SET_USER_INFO,payload:user})
 /* Actions */
 
 export const getUserList = () => {
@@ -83,10 +84,11 @@ export const createUser = (email, first_name,last_name, role, enabled,license, r
     }
 }
 
-export const updateUser = (id, email, first_name,last_name, role, enabled,license, regions, countries) => {
-    return dispatch => {
+export const updateUser = () => {
+    return (dispatch,getState) => {
+        let user=getState().users.editing
         dispatch(onUserCreateRequested());
-        Axios.put(API + 'users/' + id, { email, first_name, last_name, role, enabled, regions, countries,license }).then(res => {
+        Axios.put(API + 'users/' + user.id,user ).then(res => {
             alert('User Updated')
             dispatch(onUserCreateSucceeded(res.data))
         })
@@ -111,6 +113,12 @@ export const deleteUser = (id) => {
 export const clearUserInfo = () => {
     return dispatch => {
         dispatch(onClearUserInfo())
+    }
+}
+
+export const setUser = (user)=>{
+    return dispatch =>{
+        dispatch(setUserInfo(user))
     }
 }
 
@@ -164,6 +172,12 @@ function userReducer(state = initialState, action) {
                 ...state,
                 editing: {}
             }
+        case SET_USER_INFO:{
+            return{
+                ...state,
+                editing:action.payload
+            }
+        }
         case USER_CREATE_REQUESTED:
             return {
                 ...state
@@ -204,8 +218,6 @@ const FormInitialState = {
     email: '',
     enabled: 0
 }
-export function userFormReducer(state = FormInitialState) {
 
-}
 
 export default userReducer

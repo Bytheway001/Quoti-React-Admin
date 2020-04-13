@@ -1,186 +1,172 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Row, Col, Card, FormGroup, FormLabel, FormControl, Spinner, Button } from 'react-bootstrap';
-import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-
-const UserForm = (props) => {
-    const [email, setEmail] = useState('')
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [role, setRole] = useState('');
-    const [license, setLicense] = useState('');
-    const [enabled, setEnabled] = useState('');
-    const [regions, setRegions] = useState([]);
-    const [countries, setCountries] = useState([]);
+import React from 'react'
+import { Field, reduxForm, formValueSelector, getFormInitialValues } from 'redux-form'
+import { Form, Row, Col, Card, FormControl, FormCheck, Button } from 'react-bootstrap'
+import { connect } from 'react-redux';
+import { useEffect } from 'react';
+import { getRegionList } from '../../ducks/regions';
+import { getCountryList } from '../../ducks/countries';
+import { setUserInfo, updateUser } from '../../ducks/user';
+let UserForm = ({ id, getUserInfo, user, getRegionList, getCountryList, regions, countries,setUserInfo,updateUser }) => {
     useEffect(() => {
-        if (props.match.params.id) {
-            props.getUserInfo(props.match.params.id)
-        }
-        else {
-            props.clearUserInfo()
-        }
-        props.getRegionList();
-        props.getCountryList();
-    }, [props.match.params.id])
+        getRegionList()
+        getUserInfo(id)
+        getCountryList()
+    }, [])
 
-    useEffect(() => {
-        console.log(props.users.editing)
-        setEmail(props.users.editing.email)
-        setFirstName(props.users.editing.first_name)
-        setLastName(props.users.editing.last_name)
-        setRole(props.users.editing.role)
-        setEnabled(props.users.editing.enabled)
-        setRegions(props.users.editing.regions || [])
-        setCountries(props.users.editing.countries || [])
-        setLicense(props.users.editing.license)
-    }, [props.users.editing])
+    const handleChange = (e)=>{
+        let oldUser = {...user};
+        oldUser[e.target.name]=e.target.value
+        setUserInfo(oldUser)
 
-    const handleSubmit = (e) => {
- 
+    }
+
+    const toggleRegion = (regionId)=>{
+        let oldUser = {...user}
+        let r = oldUser.regions.find(r=>r.region===regionId);
+        if(r){
+            r.checked=!r.checked
+        }
+        else{
+            oldUser.regions.push({region:regionId,checked:true})
+        }
+        setUserInfo(oldUser);
+    }
+
+    const toggleCountry = (countryId) =>{
+        let oldUser = {...user}
+        let r = oldUser.countries.find(r=>r.country===countryId);
+        if(r){
+            r.checked=!r.checked
+        }
+        else{
+            oldUser.countries.push({country:countryId,checked:true})
+        }
+        setUserInfo(oldUser);
+    }
+
+    const handleSubmit = (e)=>{
         e.preventDefault();
-      
-        if (props.match.params.id) {
-            props.updateUser(props.match.params.id, email, first_name,last_name, role, enabled,license, regions, countries)
-        }
-        else {
-            props.createUser(email, first_name,last_name, role, enabled,license, regions, countries)
-        }
-      
+        updateUser()
     }
 
-    const toggleRegion = (checked, regionId) => {
-        let selectedRegion = regions.findIndex(x => x.region === regionId)
-        if (selectedRegion === -1) {
-            regions.push({ region: regionId, checked: checked })
-        }
-        else {
-            regions[selectedRegion].checked = checked
-        }
-        setRegions(regions)
 
-    }
-
-    const toggleCountry = (checked, countryId) => {
-        let selectedCountry = countries.findIndex(x => x.country === countryId)
-        if (selectedCountry === -1) {
-            countries.push({ country: countryId, checked: checked })
-        }
-        else {
-            countries[selectedCountry].checked = checked
-        }
-        setCountries(countries)
-    }
 
 
     return (
         <Form onSubmit={handleSubmit}>
 
-            {
-                !props.users.fetchingList && !props.regions.fetchingList && !props.countries.fetchingList ?
-                    <Row>
-                        <Col sm={12} md={3} className='h-100'>
-                            <Card>
-                                <Card.Header>Datos Generales</Card.Header>
+            <Row noGutters style={{height:'60vh'}}>
+                <Col sm={4}>
+                    <Card className='h-100' style={{borderRadius:0}}>
+                        <Card.Header className='text-center'  style={{borderRadius:0}}>Datos Generales</Card.Header>
+                        <Card.Body>
 
-                                <Card.Body>
-                                    <FormGroup>
-                                        <FormLabel>E-Mail</FormLabel>
-                                        <FormControl size='sm' name="email" value={email || ''} onChange={({ target }) => setEmail(target.value)} />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <FormLabel>Nombres</FormLabel>
-                                        <FormControl size='sm' name='first_name' value={first_name || ''} onChange={({ target }) => setFirstName(target.value)} />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <FormLabel>Apellidos</FormLabel>
-                                        <FormControl size='sm' name='last_name' value={last_name || ''} onChange={({ target }) => setLastName(target.value)} />
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <FormLabel>Rol</FormLabel>
-                                        <FormControl size='sm' as='select' name='role' value={role || ''} onChange={({ target }) => setRole(target.value)} >
-                                            <option value=''>Seleccione...</option>
-                                            <option value='client'>Cliente</option>
-                                            <option value='agent'>Agente</option>
-                                            <option value='admin'>Admin</option>
-                                        </FormControl>
-                                    </FormGroup>
-                                    <FormGroup>
-                                   
-                                        <FormLabel>Status</FormLabel>
-                                        <FormControl size='sm' as='select' name='enabled' value={enabled && enabled.toString() || ''} onChange={({ target }) => setEnabled(target.value)} >>
-                                            <option value=''>Seleccione...</option>
-                                            <option value='1'>Activo</option>
-                                            <option value='0'>Inactivo</option>
-                                        </FormControl>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <FormLabel>Licencia</FormLabel>
-                                        <FormControl size='sm' as='select' name='license' value={license || ''} onChange={({ target }) => setLicense(target.value)} >
-                                            <option value=''>Seleccione...</option>
-                                            <option value='trial'>Trial User</option>
-                                            <option value='paid'>Paid Customer</option>
-                                        </FormControl>
-                                    </FormGroup>
-                                </Card.Body>
+                            <Form.Group>
+                                <label>Nombre(s):</label>
+                                <FormControl name='first_name' size='sm' value={user.first_name} onChange={(e)=>handleChange(e)}/>
+                            </Form.Group>
+                            <Form.Group>
+                                <label>Apellido(s):</label>
+                                <FormControl name='last_name' size='sm' value={user.last_name} onChange={(e)=>handleChange(e)}/>
+                            </Form.Group>
+                            <Form.Group>
+                                <label>Rol:</label>
+                                <FormControl as='select' name='role' size='sm' value={user.role} onChange={(e)=>handleChange(e)}>
+                                    <option value=''>Seleccione...</option>
+                                    <option value='staff'>STAFF</option>
+                                    <option value='agent'>AGENTE</option>
+                                    <option value='client'>CLIENTE</option>
+                                </FormControl>
+                            </Form.Group>
+                            <Form.Group>
+                                <label>Email:</label>
+                                <FormControl component='input' type='email' name='email' size='sm' value={user.email} onChange={(e)=>handleChange(e)}/>
+                            </Form.Group>
+                            <Form.Group as={Row}>
+                                <Col sm={3}>
+                                    <label>Codigo</label>
+                                    <FormControl name='countrycode' size='sm' value={user.countrycode} onChange={(e)=>handleChange(e)} />
+                                </Col>
+                                <Col sm={9}>
+                                    <label>Whatsapp</label>
+                                    <FormControl name='whatsapp' size='sm' value={user.whatsapp} onChange={(e)=>handleChange(e)}/>
+                                </Col>
+                            </Form.Group>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col sm={4} className='h-100'>
+                    <Card className='h-100'>
+                        <Card.Header className='text-center'  style={{borderRadius:0}}>Regiones</Card.Header>
+                        <Card.Body>
 
-                            </Card>
-                            <Button size='sm' block type='submit'>Guardar</Button>
-                        </Col>
-                        <Col md={9} className='d-flex flex-column justify-content-around'>
-                            <Card className='mb-3'>
-                                <Card.Header>Regiones</Card.Header>
-                                <Card.Body as={Row}>
-                                    {
-                                        props.regions && props.regions.list.map((region, index) => (
-                                            <Col sm={3} key={index}>
-                                                <BootstrapSwitchButton
-                                                    checked={regions && regions.find(x => { return x.region === region.id }) ? regions.find(x => { return x.region === region.id }).checked : false}
-                                                    onChange={(e) => { toggleRegion(e, region.id) }}
-                                                    size='sm'
-                                                    onlabel={region.name}
-                                                    offlabel={region.name}
-                                                    onstyle='success' offstyle='danger'
-                                                    style='w-100'
+                            <Row>
 
+                                {
+                                    regions && regions.map(region => {
+                                        return (
+                                            <Col sm={6}>
+                                                <FormCheck 
+                                                    checked={user.regions && user.regions.find(r => r.region === region.id) && user.regions.find(r => r.region === region.id).checked} label={region.name} 
+                                                    onChange={(e)=>toggleRegion(region.id)}
                                                 />
                                             </Col>
-                                        ))
-                                    }
-                                </Card.Body>
-                            </Card>
-                            <Card>
-                                <Card.Header>Paises</Card.Header>
+                                        )
+                                    })
+                                }
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                </Col>
+                <Col sm={4}>
+                    <Card className='h-100'>
+                        <Card.Header className='text-center' style={{borderRadius:0}}>Paises</Card.Header>
+                        <Card.Body>
 
-                                <Card.Body as={Row}>
-                                    {
-                                        props.countries && props.countries.list.map((country, index) => (
-                                            <Col sm={3}>
-                                                <BootstrapSwitchButton
-                                                    checked={countries && countries.find(x => { return x.country === country.id }) ? countries.find(x => { return x.country === country.id }).checked : false}
-                                                    size='sm'
-                                                    onlabel={country.name}
-                                                    offlabel={country.name}
-                                                    onstyle='success' offstyle='danger'
-                                                    style='w-100'
-                                                    onChange={(e) => { toggleCountry(e, country.id) }}
+                            <Row>
+
+                                {
+                                    countries && countries.map(country => {
+                                        return (
+                                            <Col sm={6}>
+                                                <FormCheck 
+                                                    checked={user.countries && user.countries.find(r => r.country === country.id) && user.countries.find(r => r.country === country.id).checked} label={country.name} 
+                                                    onChange={(e)=>toggleCountry(country.id)}
                                                 />
                                             </Col>
-
-                                        ))
-                                    }
-
-                                </Card.Body>
-                            </Card>
-                        </Col>
-
-                    </Row>
-                    : <Spinner animation='border' size={32} />
-
-            }
-
+                                        )
+                                    })
+                                }
+                            </Row>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={12} className='text-center mt-2'>
+                <Button type='submit'>Enviar</Button>
+                </Col>
+            </Row>
+                               
         </Form>
     )
 }
 
+const mapStateToProps = state => (
+    {
+        user: state.users.editing,
+        regions: state.regions.list,
+        countries: state.countries.list
+    }
+)
 
+const mapDispatchToProps = dispatch => (
+    {
+        getRegionList: () => dispatch(getRegionList()),
+        getCountryList: () => dispatch(getCountryList()),
+        setUserInfo:(newUser)=>dispatch(setUserInfo(newUser)),
+        updateUser:()=>dispatch(updateUser())
+    }
+)
 
-export default UserForm
+export default connect(mapStateToProps, mapDispatchToProps)(UserForm)

@@ -11,13 +11,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer from './ducks/user';
 import RegionReducer from './ducks/regions';
 import CountryReducer from './ducks/countries';
-import { reducer as formReducer } from 'redux-form'
 const middleware = [thunk];
 const rootReducer = combineReducers({
     users: userReducer,
     regions:RegionReducer,
     countries:CountryReducer,
-    form:formReducer
+
 })
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)));

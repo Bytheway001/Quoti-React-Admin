@@ -6,34 +6,30 @@ import { Container } from 'react-bootstrap'
 import { List } from '../../Components/List';
 import RegionShow from './RegionShow';
 import RegionsEdit from './RegionsEdit';
+import CrudIndex from '../crud/Index';
 
-class Regions extends React.Component {
 
-    state = {
-        regions: []
-    }
-    componentDidMount() {
-        axios.get(API + 'regions').then(res => res.data)
-            .then(result => {
-                this.setState({
-                    ...this.state,
-                    regions: result.data
-                })
-            })
-    }
+const Regions = props =>{
+    const headers = [
+        {name: 'ID',value: (e) => e.id,filter:'id'},
+        {name:'Company',value:(e)=>e.company,filter:'company'},
+        {name:'Nombre',value:(e)=>e.name,filter:'name'},
 
-    render() {
-        return (
-            <Container fluid>
-                <Switch>
-                    <Route exact path='/regions' render={() => <List data={this.state.regions} path='/regions' />}></Route>
-                    <Route exact path='/regions/:id/edit' component={RegionsEdit}></Route>
-                    <Route exact path='/regions/:id' component={RegionShow}></Route>
-                    
-                </Switch>
-            </Container>
-        )
-    }
+        
+    ]
+
+    return (
+        <Container fluid>
+            <Switch>
+                <Route exact path='/regions' render={() => <CrudIndex headers={headers} for='regions' />}></Route>
+                <Route exact path='/regions/:id/edit' component={RegionsEdit}></Route>
+                <Route exact path='/regions/:id' component={RegionShow}></Route>
+                
+            </Switch>
+        </Container>
+    )
+
+
 }
 
 export default Regions
