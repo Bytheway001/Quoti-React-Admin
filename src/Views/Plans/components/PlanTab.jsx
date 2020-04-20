@@ -1,7 +1,7 @@
-import React,{Fragment} from 'react';
-import {Table, FormControl, Button } from 'react-bootstrap';
+import React, { Fragment } from 'react';
+import { Table, FormControl, Button } from 'react-bootstrap';
 export const PlanTab = (props) => {
-    let {plan,regions} = props
+    let { plan, regions } = props
     return (
         <Fragment>
             <Button size='sm' variant='success' className='my-2' type='submit'>Guardar</Button>
@@ -50,7 +50,34 @@ export const PlanTab = (props) => {
                     </tr>
                 </tbody>
             </Table>
-            </Fragment>
+            <h3 className="text-center">Beneficios</h3>
+
+            <Table size='sm' variant='bordered'>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Beneficio</th>
+                        <th style={{width:'70%'}}>Descripcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        plan.benefits.map(benefit => (
+                            <tr>
+                                <td>{benefit.benefit_id}</td>
+                                <td>{benefit.name}</td>
+                                <td>
+                                    <FormControl rows={6} size='sm' as='textarea'>
+                                    {benefit.description.replace('\\','\n')}
+                                    </FormControl>
+                                    
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </Table>
+        </Fragment>
     )
 
 }
