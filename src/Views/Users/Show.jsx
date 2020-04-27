@@ -1,86 +1,46 @@
 import React from 'react';
-import { Row, Col, ListGroup, ListGroupItem, Card } from 'react-bootstrap';
+import { Row, Card, Col } from 'react-bootstrap';
+import { useEffect } from 'react';
 import Axios from 'axios';
-import { API, APIHEADERS } from '../../utils';
-import {Link} from 'react-router-dom';
 
-class UserShow extends React.Component {
-    state = {
-        user: null
-    }
-
-    componentDidMount() {
-        Axios.get(API + 'users/' + this.props.match.params.id, { headers: APIHEADERS }).then(res => res.data)
-            .then(result => {
-                this.setState({
-                    ...this.state,
-                    user: result.data
-                })
-            })
-    }
-    render() {
-        let user = this.state.user
-        return (
-
-            <Row>
-                {
-                    user ?
-                        <React.Fragment>
-                            <Col sm={12}>
-                                <h3 className="text-center">{user.first_name + ' ' + user.last_name}</h3>
+export const UserShow = ({id,getUserInfo,users}) =>{
+    const user = users.editing
+   
+    useEffect(()=>{
+        getUserInfo(id)
+       
+    },[])
+    return(
+        <Row>
+            <Col sm={4}>
+                <Card>
+                    <Card.Header>Datos Generales</Card.Header>
+                    <Card.Body>
+                        <Row>
+                            <Col sm={6}>
+                                <p>Nombre:</p>
                             </Col>
-
-                            <Col sm={12}>
-                                <Row>
-                                    <Col sm={4}>
-                                        <Card>
-                                            <Card.Header>Datos Generales</Card.Header>
-                                            <Card.Body>
-                                                <ListGroup>
-                                                    <ListGroupItem>
-                                                        Rol: {user.role}
-                                                    </ListGroupItem>
-                                                    <ListGroupItem>Email: {user.email}</ListGroupItem>
-                                                </ListGroup>
-                                            </Card.Body>
-                                        </Card>
-
-                                    </Col>
-                                    <Col sm={4}>
-                                        <Card>
-                                            <Card.Header>Regiones Habilitadas</Card.Header>
-                                            <Card.Body>
-                                                <ListGroup>
-                                                    {
-                                                        user.regions.map(region => (
-                                                            <ListGroupItem style={{padding:8}}>{region.name}</ListGroupItem>
-                                                        ))
-                                                    }
-                                                </ListGroup>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                    <Col sm={4}>
-                                    <Card>
-                                            <Card.Header>Acciones</Card.Header>
-                                            <Card.Body>
-                                                <ListGroup>
-                                                   <Link to={'/users/'+user.id+'/edit'}>Editar</Link>
-                                                </ListGroup>
-                                            </Card.Body>
-                                        </Card>
-                                    </Col>
-                                </Row>
+                            <Col sm={6}>
+                                <p>{user.first_name}</p>
                             </Col>
-                        </React.Fragment>
-                        : null
-                }
+                            <Col sm={6}>
+                                <p>Apellido:</p>
+                            </Col>
+                            <Col sm={6}>
+                                <p>{user.last_name}</p>
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
+            </Col>
+            <Col sm={4}>
+                <Card>
+                    <Card.Header>Stats</Card.Header>
+                    <Card.Body>
 
-            </Row>
-        )
-    }
+                    </Card.Body>
+                </Card>
+            </Col>
+        </Row>
+    )
 }
-
-
-export default UserShow
-

@@ -78,6 +78,25 @@ p {
   }
 }
 
+.nav-tabs{
+  .nav-link{
+    &.active{
+      background: $darkBlue;
+      color:white;
+    }
+    &:hover{
+      color:black
+    }
+    color:$darkBlue
+  }
+}
+.table{
+  th{
+    color:black;
+  }
+}
+
+
 #planForm {
   .nav {
     border: none;

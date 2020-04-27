@@ -1,16 +1,14 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
-import { Container, Row, Col, Card } from 'react-bootstrap'
-import Form from './Form';
-import List from './List';
+import { Container} from 'react-bootstrap'
 import { getUserList, getUserInfo, clearUserInfo, createUser, updateUser, deleteUser } from '../../ducks/user';
 import { connect } from 'react-redux';
 import { getRegionList } from '../../ducks/regions';
 import { getCountryList } from '../../ducks/countries';
 import CrudIndex from '../crud/Index';
-
 import { NewUser } from './NewUser';
 import UserForm from './Form';
+import { UserShow } from './Show';
 
 const Users = (props) => {
     const headers = [
@@ -27,6 +25,7 @@ const Users = (props) => {
             <Switch>
                 <Route exact path='/users' render={(matchProps) => <CrudIndex headers={headers} for='users' />} />
                 <Route exact path='/users/new' render={(matchProps) => <NewUser />} />
+                <Route exact path='/users/:id' render={(matchProps)=><UserShow {...props} id={matchProps.match.params.id}/>}/>
                 <Route exact path='/users/:id/edit' render={(matchProps) => <UserForm id={matchProps.match.params.id} getUserInfo={props.getUserInfo} />} />
             </Switch>
         </Container>
