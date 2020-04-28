@@ -48,16 +48,14 @@ const CrudTable = ({ resourceName, headers, resourceList }) => {
 			})
 			return shown;
 		})
-		console.log(newData)
 		setData(newData)
 	}
 
 	/** Adds a new filter */
 	const addFilter = (filtername, filtervalue) => {
-		console.log(filtername, filtervalue);
+
 		let f = { ...filters }
 		f[filtername] = filtervalue;
-		console.log(f)
 		setFilters(f)
 		filterTable(f)
 	}
@@ -96,7 +94,7 @@ const CrudTable = ({ resourceName, headers, resourceList }) => {
 								header.filter && (
 									<FormControl size='sm' as='select' onChange={({ target }) => addFilter(header.filter, target.value)}>
 										<option value='all' > </option>
-										{[...new Set(resourceList.map(r => header.value(r)))].map((value,index) => {
+										{[...new Set(resourceList.map(r => header.value(r)))].map((value, index) => {
 
 											return <option key={index} value={value}>{value}</option>
 										}
