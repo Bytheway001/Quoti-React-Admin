@@ -1,35 +1,45 @@
 import React from 'react';
-import Axios from 'axios';
-import { API } from '../../utils';
-import { Row, Col, Card, Table, Button } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
-import { CrudTable } from './Table';
+import { Row, Col, Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import  CrudTable  from './Table';
+import { useEffect } from 'react';
+import { crudList } from '../../ducks/crud';
+import { connect } from 'react-redux';
 
-class CrudIndex extends React.Component{
-    state={
-        resource:[]
-    }
-    componentDidMount(){
-        Axios.get(API+this.props.for).then(res=>res.data).then(result=>{this.setState({resource:result.data})})
-    }
-    render(){
-        let headers= this.props.headers
-        let headerkeys = Object.keys(headers)
-        return(
-            <Row id='crudIndex'>
-                <Col sm={12}>
-                    <Card>
-                        <Card.Header className='text-center'>LISTADO</Card.Header>
-                        <Card.Body>
-                            <Button className='my-2' size='sm' as={Link} to={this.props.for+'/new'}>Nuevo</Button>
-                            <CrudTable headers={headers} headerkeys={headerkeys} for={this.props.for} resource={this.state.resource}></CrudTable>
-                        </Card.Body>
-                    </Card>
-          
-                </Col>
-            </Row>
-        )
-    }
+
+const CrudIndex = ({ headers, resourceName,getList,list }) => {
+
+    useEffect(() => {
+        getList(resourceName);
+
+    }, [getList,resourceName])
+    let headerKeys = Object.keys(headers)
+    return (
+        <Row id='crudIndex'>
+            <Col sm={12}>
+                <Card>
+                    <Card.Header className='text-center'>LISTADO</Card.Header>
+                    <Card.Body>
+                        <Button className='my-2' size='sm' as={Link} to={resourceName}>Nuevo</Button>
+                        <CrudTable headers={headers} headerkeys={headerKeys} resourceName={resourceName} resourceList={list}></CrudTable>
+                    </Card.Body>
+                </Card>
+
+            </Col>
+        </Row>
+    )
 }
 
-export default CrudIndex;
+const mapStateToProps = state => (
+    {   
+        list:state.crud.list
+    }
+)
+
+const mapDispatchToProps = dispatch => (
+    {
+        getList:(resourceName)=>dispatch(crudList(resourceName))
+    }
+)
+
+export default connect(mapStateToProps,mapDispatchToProps)(CrudIndex);

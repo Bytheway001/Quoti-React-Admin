@@ -33,11 +33,6 @@ const FileNew = ({history}) => {
             })
     }
 
-    const uploadFile = (e) => {
-        setFile(e.target.files[0]);
-    }
-
-
 
     return (
         <Row style={{ padding: 30 }}>

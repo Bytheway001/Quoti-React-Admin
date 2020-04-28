@@ -1,5 +1,4 @@
 import React from 'react'
-import { Field, reduxForm, formValueSelector, getFormInitialValues } from 'redux-form'
 import { Form, Row, Col, Card, FormControl, FormCheck, Button } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
@@ -11,13 +10,12 @@ let UserForm = ({ id, getUserInfo, user, getRegionList, getCountryList, regions,
         getRegionList()
         getUserInfo(id)
         getCountryList()
-    }, [])
+    }, [getRegionList,getUserInfo,getCountryList,id])
 
     const handleChange = (e)=>{
         let oldUser = {...user};
         oldUser[e.target.name]=e.target.value
         setUserInfo(oldUser)
-
     }
 
     const toggleRegion = (regionId)=>{

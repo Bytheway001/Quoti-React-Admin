@@ -35,7 +35,7 @@ export const PlanTab = (props) => {
                         <th>
                             <FormControl size='sm' name='region_id' as='select' value={plan.region_id} onChange={props.handleMainChange}>
                                 <option disabled value="">Seleccione...</option>
-                                {regions.filter(x => x.company_id == plan.company_id).map((region, k) => {
+                                {regions.filter(x => x.company_id === plan.company_id).map((region, k) => {
                                     return (<option key={k} value={region.id}>{region.name}</option>)
                                 })}
                             </FormControl>

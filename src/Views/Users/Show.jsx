@@ -1,7 +1,6 @@
 import React from 'react';
 import { Row, Card, Col } from 'react-bootstrap';
 import { useEffect } from 'react';
-import Axios from 'axios';
 
 export const UserShow = ({id,getUserInfo,users}) =>{
     const user = users.editing
@@ -9,7 +8,7 @@ export const UserShow = ({id,getUserInfo,users}) =>{
     useEffect(()=>{
         getUserInfo(id)
        
-    },[])
+    },[getUserInfo,id])
     return(
         <Row>
             <Col sm={4}>

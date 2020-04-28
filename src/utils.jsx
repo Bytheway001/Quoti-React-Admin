@@ -53,9 +53,11 @@ export const responsiveText = (large, small) => {
     return small
 }
 
+/*
 export function groupBy(xs, f) {
     return xs.reduce((r, v, i, a, k = f(v)) => ((r[k] || (r[k] = [])).push(v), r), []);
 }
+*/
 /*
 const cars = [
     { make: 'audi', model: 'r8', year: '2012' },

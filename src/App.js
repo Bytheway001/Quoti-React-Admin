@@ -6,14 +6,9 @@ import './application.scss'
 import Regions from './Views/Regions/Regions';
 
 import Files from './Views/Files/Files';
-const styles = {
-  sidebar: {
+const styles = {sidebar: {
     flex: 1,
-
-   
-
-
-  },
+   },
   page: {
     display: 'flex',
     flexDirection: 'row',

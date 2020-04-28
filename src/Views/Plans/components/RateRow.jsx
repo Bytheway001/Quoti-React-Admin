@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useReducer } from 'react';
+import React, { Fragment,  useState } from 'react';
 import { FormControl, Button } from 'react-bootstrap'
 
 export const RateRow = ({ deductibles, addRates }) => {

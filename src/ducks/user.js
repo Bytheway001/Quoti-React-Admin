@@ -210,14 +210,4 @@ function userReducer(state = initialState, action) {
     }
 }
 
-const FormInitialState = {
-    id: null,
-    first_name: '',
-    last_name: '',
-    role: '',
-    email: '',
-    enabled: 0
-}
-
-
 export default userReducer

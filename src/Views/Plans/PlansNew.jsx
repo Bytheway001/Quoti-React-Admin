@@ -1,22 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Row, Col, Tabs, Tab, Table, Form, FormControl, Button, FormCheck, Card, FormGroup, FormLabel } from 'react-bootstrap';
-import { API, APIHEADERS, groupBy } from '../../utils';
-import Axios from 'axios';
-import { Link } from 'react-router-dom';
-import InputFiles from 'react-input-files';
-import PlansLogic from './PlansLogic';
-import { RateRow, RateSetRow } from './components/RateRow';
-const testDeds = [
-    { in: 1, out: 2 },
-    { in: 3, out: 4 },
-    { in: 5, out: 6 }
-]
+import { Row, Col, Tabs, Tab, Table, FormControl, Button,  Card, FormGroup, FormLabel } from 'react-bootstrap';
 
-const testAges = [
-    { min: 18, max: 24 },
-    { min: 25, max: 29 },
-    { min: 30, max: 34 }
-]
 
 /*
 Rates = [
@@ -45,8 +29,7 @@ const PlansNew = ({ location, regions, getRegionList }) => {
     const [deductibles, setDeductibles] = useState([]);
     const [ages, setAges] = useState([])
     const [rates, setRates] = useState([]);
-    const [kidRates, setKidRates] = useState([]);
-    const [endosos, setEndosos] = useState([]);
+    
     const [formIn, setFormIn] = useState('');
     const [formOut, setFormOut] = useState("");
     const [ageMin, setAgeMin] = useState('');
@@ -73,7 +56,7 @@ const PlansNew = ({ location, regions, getRegionList }) => {
         console.log('Effecting')
         console.table(rates)
         setRates(r);
-    }, [ages,deductibles])
+    }, [ages,deductibles,getRegionList,rates])
 
     const removeDedOption = (inside) => {
         let x = deductibles.filter(x => x.in !== inside);
@@ -169,7 +152,7 @@ const PlansNew = ({ location, regions, getRegionList }) => {
                                             <FormLabel>Region</FormLabel>
                                             <FormControl size='sm' name='region_id' as='select' value={region_id} onChange={({ target }) => setRegionId(target.value)}>
                                                 <option disabled value="">Seleccione...</option>
-                                                {regions && regions.list.filter(x => x.company_id == company_id).map((region, k) => {
+                                                {regions && regions.list.filter(x => x.company_id === company_id).map((region, k) => {
                                                     return (<option key={k} value={region.id}>{region.name}</option>)
                                                 })}
                                             </FormControl>

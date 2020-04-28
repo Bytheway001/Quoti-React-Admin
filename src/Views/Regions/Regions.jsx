@@ -1,9 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
-import { API } from '../../utils';
-import axios from 'axios';
 import { Container } from 'react-bootstrap'
-import { List } from '../../Components/List';
 import RegionShow from './RegionShow';
 import RegionsEdit from './RegionsEdit';
 import CrudIndex from '../crud/Index';

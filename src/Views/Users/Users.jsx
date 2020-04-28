@@ -23,7 +23,7 @@ const Users = (props) => {
     return (
         <Container fluid style={{ marginTop: 30 }}>
             <Switch>
-                <Route exact path='/users' render={(matchProps) => <CrudIndex headers={headers} for='users' />} />
+                <Route exact path='/users' render={(matchProps) => <CrudIndex headers={headers} resourceName='users' />} />
                 <Route exact path='/users/new' render={(matchProps) => <NewUser />} />
                 <Route exact path='/users/:id' render={(matchProps)=><UserShow {...props} id={matchProps.match.params.id}/>}/>
                 <Route exact path='/users/:id/edit' render={(matchProps) => <UserForm id={matchProps.match.params.id} getUserInfo={props.getUserInfo} />} />

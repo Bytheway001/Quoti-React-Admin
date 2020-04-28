@@ -11,11 +11,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import userReducer from './ducks/user';
 import RegionReducer from './ducks/regions';
 import CountryReducer from './ducks/countries';
+import { crudReducer } from './ducks/crud';
 const middleware = [thunk];
 const rootReducer = combineReducers({
     users: userReducer,
     regions:RegionReducer,
     countries:CountryReducer,
+    crud:crudReducer
 
 })
 
