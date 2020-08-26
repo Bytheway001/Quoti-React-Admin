@@ -67,10 +67,11 @@ export const PlanTab = (props) => {
                                 <td>{benefit.benefit_id}</td>
                                 <td>{benefit.name}</td>
                                 <td>
+                                    {/*
                                     <FormControl rows={6} size='sm' as='textarea'>
                                     {benefit.description.replace('\\','\n')}
                                     </FormControl>
-                                    
+                                    */}
                                 </td>
                             </tr>
                         ))

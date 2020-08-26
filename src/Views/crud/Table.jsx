@@ -93,7 +93,7 @@ const CrudTable = ({ resourceName, headers, resourceList }) => {
 							{
 								header.filter && (
 									<FormControl size='sm' as='select' onChange={({ target }) => addFilter(header.filter, target.value)}>
-										<option value='all' > </option>
+										<option value='all' style={{color:'blue'}} >TODOS</option>
 										{[...new Set(resourceList.map(r => header.value(r)))].map((value, index) => {
 
 											return <option key={index} value={value}>{value}</option>

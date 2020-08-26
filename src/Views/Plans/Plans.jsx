@@ -18,7 +18,7 @@ const Plans = (props) => {
     return (
         <Container fluid>
             <Switch>
-                <Route exact path='/plans' render={() => <CrudIndex headers={headers} for='plans' />}></Route>
+                <Route exact path='/plans' render={() => <CrudIndex headers={headers} resourceName='plans' />}></Route>
                 <Route exact path='/plans/:id/edit' component={PlansEdit} ></Route>
                 <Route exact path='/plans/new' render={() => <PlansNew {...props} />}></Route>
                 <Route exact path='/plans/:id' component={PlanShow}></Route>

@@ -1,28 +1,13 @@
 import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
+import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Container, Row, Col } from 'react-bootstrap'
 import Users from './Views/Users/Users';
 import Plans from './Views/Plans/Plans';
 import './application.scss'
 import Regions from './Views/Regions/Regions';
 
 import Files from './Views/Files/Files';
-const styles = {sidebar: {
-    flex: 1,
-   },
-  page: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    maxHeight: '100vh',
-    minHeight: '100vh',
-  },
-  content: {
-    padding: 20,
-    flex: 5,
-    overflowY: 'scroll'
 
-  }
-}
 
 
 
@@ -31,7 +16,7 @@ class App extends React.Component {
     return (
       <BasicLayout>
         <Switch>
-          <Route path='/users' component={()=><Users/>} />
+          <Route path='/users' component={() => <Users />} />
           <Route path='/regions' component={() => <Regions />} />
           <Route path='/files' component={() => <Files />} />
           <Route path='/plans' component={() => <Plans />} />
@@ -43,7 +28,7 @@ class App extends React.Component {
 }
 
 const Sidebar = (props) => (
-  <div style={styles.sidebar} className='sidebar'>
+  <div className='sidebar'>
     <ul>
       <li><Link to='/users'>Usuarios</Link></li>
       <li><Link to='/files'>Documentos</Link></li>
@@ -54,13 +39,36 @@ const Sidebar = (props) => (
   </div>
 )
 
+const TopBar = () => (
+  <Navbar>
+    <Navbar.Brand href="#">Admin Tool</Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav className="ml-auto">
+        <Nav.Link href="#home">Test user</Nav.Link>
+        <Nav.Link href="#link">Avatar</Nav.Link>
+
+      </Nav>
+    </Navbar.Collapse>
+  </Navbar>
+)
+
 const BasicLayout = (props) => (
-  <div style={styles.page}>
-    <Sidebar />
-    <div style={styles.content}>
-      {props.children}
-    </div>
-  </div>
+  <Container className='p-0 h-100' fluid>
+    <Row noGutters>
+      <Col sm={2}>
+        <Sidebar className='h-100' />
+      </Col>
+      <Col sm={10}>
+        <TopBar />
+        <div style={{ paddingTop: 50 }}>
+          {props.children}
+        </div>
+      </Col>
+    </Row>
+  </Container>
+
+
 
 )
 

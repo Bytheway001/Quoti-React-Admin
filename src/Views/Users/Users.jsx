@@ -17,7 +17,6 @@ const Users = (props) => {
         { name: 'Nombre(s)', value: (e) => e.first_name, filter: 'first_name' },
         { name: "Apellidos(s)", value: (e) => e.last_name, filter: 'last_name' },
         { name: "Rol", value: (e) => e.role, filter: 'role' },
-
     ]
 
     return (

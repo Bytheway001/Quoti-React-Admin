@@ -55,6 +55,8 @@ const FileNew = ({history}) => {
                             <option value='4'>Megabrokers Latam</option>
                             <option value='5'>Bupa</option>
                             <option value='6'>BMI</option>
+                            <option value='7'>AMFirst</option>
+                            <option value='8'>American Fidelity</option>
                         </FormControl>
                     </FormGroup>
                     <FormGroup>

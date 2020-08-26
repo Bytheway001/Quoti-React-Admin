@@ -1,6 +1,18 @@
 @import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css");
 @import url("https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/superhero/bootstrap.min.css");
 $darkBlue: #0747a6;
+.navbar{
+  background: #F4F5F7;
+  position:fixed;
+  width:100%;
+  z-index: 1;
+  .navbar-brand{
+    color:#42526E!important;
+  }
+  .nav-link{
+    color:#42526E!important;
+  }
+}
 .blue {
   color: $darkBlue;
 }
@@ -8,7 +20,12 @@ $darkBlue: #0747a6;
   background-color: $darkBlue;
   color: white !important;
 }
+html{
+  height:100%;
+
+}
 body {
+  height:100%;
   background: white;
   color: $darkBlue;
 }
@@ -16,6 +33,12 @@ body {
   background: white;
 }
 .sidebar {
+  
+  min-height: 100vh;
+  position:fixed;
+  top:0;
+  left:0;
+  width:16.66%;
   padding: 0px;
   padding-top: 30px;
   background-color: $darkBlue;
@@ -62,12 +85,12 @@ p {
 .btn-primary {
   background-color: $darkBlue;
   border-color: $darkBlue;
-  transition: all 1s ease-in-out;
+  transition: all 0.2s ease-in-out;
   &:hover {
     background: white;
-    border-color: white;
+    border-color: $darkBlue;
     color: $darkBlue;
-    transform: rotate(360deg);
+  
   }
 }
 
